@@ -334,6 +334,9 @@ class WindowWidth extends React.Component {
   constructor() {
     super()
     this.state = { width: 0 }
+    
+    this.onWindowResize = ({ target }) => 
+      this.setState({width: target.innerWidth})
   }
 
   componentDidMount() {
@@ -341,10 +344,13 @@ class WindowWidth extends React.Component {
       {width: window.innerWidth},
       window.addEventListener(
         "resize",
-        ({ target }) =>
-          this.setState({width: target.innerWidth})
+        this.onWindowResize
       )
     )
+  }
+  
+  componentWillUnmount() {
+    window.removeEventListener("resize", this.onWindowResize)
   }
 
   render() {
